@@ -6,7 +6,7 @@
 |---------------|------------------------|
 | Leonardo Santana  | x |
 | Savio Marques dos Anjos Santos  | x |
-| xxxxxxxxxxxxxx  | x |
+| Hana Carolina Soares dos Reis Santos Oliveira   | x |
 | xxxxxxxxxxxxxx  | x |
 | xxxxxxxxxxxxxx  | x |
 | xxxxxxxxxxxxxx  | x |
