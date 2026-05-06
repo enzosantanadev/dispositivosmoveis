@@ -7,7 +7,7 @@
 | Leonardo Santana  | x |
 | Savio Marques dos Anjos Santos  | x |
 | Hana Carolina Soares dos Reis Santos Oliveira   | x |
-| xxxxxxxxxxxxxx  | x |
+| Caio Augusto Mota Jacintho  | x |
 | xxxxxxxxxxxxxx  | x |
 | xxxxxxxxxxxxxx  | x |
 | xxxxxxxxxxxxxx  | x |
