@@ -1,14 +1,16 @@
-# dispositivosmoveis
+# myapp
 
-## 👥 Equipe
+A new Flutter project.
 
-| Nome do Aluno | Telas e Funcionalidades |
-|---------------|------------------------|
-| Leonardo Santana  | Tela de Login e Cadastro • Autenticação de usuário • Validação de dados • Manter sessão logada |
-| Savio Marques dos Anjos Santos  | Organização e Categorias • Criar/editar categorias (trabalho, pessoal, etc.) • Filtrar memórias por categoria • Busca de memórias |
-| Hana Carolina Soares dos Reis Santos Oliveira   | Perfil e Configurações • Tela de perfil do usuário • Configurações de privacidade • Backup/armazenamento • Logout |
-| Caio Augusto Mota Jacintho  | Tela de Criação de Memória • Criar nova anotação • Inserir título, texto e data • Salvamento local (offline) |
-| xxxxxxxxxxxxxx  | x |
-| xxxxxxxxxxxxxx  | x |
-| xxxxxxxxxxxxxx  | x |
-| Poliana Brasil Andrade Peres| Tela Inicial (Dashboard) • Listagem de memórias • Exibição por ordem cronológica • Interface principal do app |
+## Getting Started
+
+This project is a starting point for a Flutter application.
+
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
