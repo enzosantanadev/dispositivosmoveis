@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'app_state.dart';
+import 'timeline_page.dart';
 import 'categories_screen.dart';
 import 'search_screen.dart';
-import 'create_tag_screen.dart';
 import 'theme/app_theme.dart';
-import 'models/category_model.dart';
 
 void main() {
-  runApp(const MemoryBoxApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => AppState(),
+      child: const MemoryBoxApp(),
+    ),
+  );
 }
 
 class MemoryBoxApp extends StatelessWidget {
@@ -18,14 +22,13 @@ class MemoryBoxApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        scaffoldBackgroundColor: const Color(0xfffbf9fb),
-      ),
+      theme: AppTheme.theme,
       home: const MemoryBoxLogin(),
     );
   }
 }
+
+// ─── LOGIN ──────────────────────────────────────────────────────────────────
 
 class MemoryBoxLogin extends StatefulWidget {
   const MemoryBoxLogin({super.key});
@@ -36,7 +39,6 @@ class MemoryBoxLogin extends StatefulWidget {
 
 class _MemoryBoxLoginState extends State<MemoryBoxLogin> {
   bool esconderSenha = true;
-
   final emailController = TextEditingController();
   final senhaController = TextEditingController();
 
@@ -57,9 +59,21 @@ class _MemoryBoxLoginState extends State<MemoryBoxLogin> {
     );
   }
 
+  void entrar() {
+    if (emailController.text.isEmpty || senhaController.text.isEmpty) {
+      aviso('Preencha e-mail e senha');
+      return;
+    }
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const MainShell()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppTheme.background,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
@@ -105,7 +119,7 @@ class _MemoryBoxLoginState extends State<MemoryBoxLogin> {
                     ),
                     const SizedBox(height: 27),
                     const Text(
-                      'Um espaço sagrado para guardar os\nmomentos que o tempo não deve apagar.',
+                      'Um espaço sagrado para guardar os\nMomentos que o tempo não deve apagar.',
                       style: TextStyle(
                         color: Color(0xff56514a),
                         fontSize: 18,
@@ -137,7 +151,7 @@ class _MemoryBoxLoginState extends State<MemoryBoxLogin> {
                             ),
                           ),
                           const SizedBox(height: 13),
-                          campoTexto(
+                          _campoTexto(
                             controller: emailController,
                             hint: 'seu@email.com',
                             icon: Icons.email_outlined,
@@ -173,11 +187,11 @@ class _MemoryBoxLoginState extends State<MemoryBoxLogin> {
                             ),
                           ),
                           const SizedBox(height: 13),
-                          campoSenha(),
+                          _campoSenha(),
                           const SizedBox(height: 33),
                           InkWell(
                             borderRadius: BorderRadius.circular(14),
-                            onTap: () => aviso('Entrando...'),
+                            onTap: entrar,
                             child: Container(
                               width: double.infinity,
                               height: 62,
@@ -185,18 +199,13 @@ class _MemoryBoxLoginState extends State<MemoryBoxLogin> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(14),
                                 gradient: const LinearGradient(
-                                  colors: [
-                                    Color(0xffa74860),
-                                    Color(0xfff47a9a),
-                                  ],
+                                  colors: [Color(0xffa74860), Color(0xfff47a9a)],
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight,
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: const Color(
-                                      0xffa44a62,
-                                    ).withValues(alpha: 0.22),
+                                    color: const Color(0xffa44a62).withOpacity(0.22),
                                     blurRadius: 18,
                                     offset: const Offset(0, 10),
                                   ),
@@ -214,37 +223,33 @@ class _MemoryBoxLoginState extends State<MemoryBoxLogin> {
                           ),
                           const SizedBox(height: 28),
                           Center(
-                            child: RichText(
-                              text: TextSpan(
-                                style: const TextStyle(
-                                  color: Color(0xff4d493f),
-                                  fontSize: 15,
-                                ),
-                                children: [
-                                  const TextSpan(text: 'Não tem uma conta? '),
-                                  WidgetSpan(
-                                    alignment: PlaceholderAlignment.baseline,
-                                    baseline: TextBaseline.alphabetic,
-                                    child: GestureDetector(
-                                      onTap: () => aviso('Criar nova conta'),
-                                      child: const Text(
-                                        'Criar nova conta',
-                                        style: TextStyle(
-                                          color: Color(0xffa44a62),
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                            child: GestureDetector(
+                              onTap: () => aviso('Criar nova conta'),
+                              child: RichText(
+                                text: const TextSpan(
+                                  style: TextStyle(
+                                    color: Color(0xff4d493f),
+                                    fontSize: 15,
+                                  ),
+                                  children: [
+                                    TextSpan(text: 'Não tem uma conta? '),
+                                    TextSpan(
+                                      text: 'Criar nova conta',
+                                      style: TextStyle(
+                                        color: Color(0xffa44a62),
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                           const SizedBox(height: 31),
                           Row(
                             children: [
-                              linha(),
+                              _linha(),
                               const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 18),
                                 child: Text(
@@ -256,25 +261,23 @@ class _MemoryBoxLoginState extends State<MemoryBoxLogin> {
                                   ),
                                 ),
                               ),
-                              linha(),
+                              _linha(),
                             ],
                           ),
                           const SizedBox(height: 26),
                           Center(
                             child: InkWell(
                               borderRadius: BorderRadius.circular(28),
-                              onTap: () => aviso('Entrar com Google'),
+                              onTap: entrar,
                               child: Container(
                                 height: 37,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 18,
-                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 18),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   color: const Color(0xffeee9d7),
                                   borderRadius: BorderRadius.circular(28),
                                 ),
-                                child: googleTexto(),
+                                child: _googleTexto(),
                               ),
                             ),
                           ),
@@ -291,7 +294,7 @@ class _MemoryBoxLoginState extends State<MemoryBoxLogin> {
     );
   }
 
-  Widget campoTexto({
+  Widget _campoTexto({
     required TextEditingController controller,
     required String hint,
     required IconData icon,
@@ -311,15 +314,12 @@ class _MemoryBoxLoginState extends State<MemoryBoxLogin> {
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
         ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 18,
-          vertical: 18,
-        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
       ),
     );
   }
 
-  Widget campoSenha() {
+  Widget _campoSenha() {
     return TextField(
       controller: senhaController,
       obscureText: esconderSenha,
@@ -333,21 +333,11 @@ class _MemoryBoxLoginState extends State<MemoryBoxLogin> {
           fontSize: 20,
           letterSpacing: 4,
         ),
-        prefixIcon: const Icon(
-          Icons.lock_outline,
-          color: Color(0xff7b7468),
-          size: 25,
-        ),
+        prefixIcon: const Icon(Icons.lock_outline, color: Color(0xff7b7468), size: 25),
         suffixIcon: IconButton(
-          onPressed: () {
-            setState(() {
-              esconderSenha = !esconderSenha;
-            });
-          },
+          onPressed: () => setState(() => esconderSenha = !esconderSenha),
           icon: Icon(
-            esconderSenha
-                ? Icons.visibility_outlined
-                : Icons.visibility_off_outlined,
+            esconderSenha ? Icons.visibility_outlined : Icons.visibility_off_outlined,
             color: const Color(0xff7b7468),
           ),
         ),
@@ -355,54 +345,143 @@ class _MemoryBoxLoginState extends State<MemoryBoxLogin> {
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
         ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 18,
-          vertical: 18,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+      ),
+    );
+  }
+
+  Widget _linha() => Expanded(child: Container(height: 1, color: const Color(0xffe7e1c8)));
+
+  Widget _googleTexto() {
+    return RichText(
+      text: const TextSpan(
+        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+        children: [
+          TextSpan(text: 'G', style: TextStyle(color: Color(0xff4285f4))),
+          TextSpan(text: 'o', style: TextStyle(color: Color(0xffdb4437))),
+          TextSpan(text: 'o', style: TextStyle(color: Color(0xfff4b400))),
+          TextSpan(text: 'g', style: TextStyle(color: Color(0xff4285f4))),
+          TextSpan(text: 'l', style: TextStyle(color: Color(0xff0f9d58))),
+          TextSpan(text: 'e', style: TextStyle(color: Color(0xffdb4437))),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── SHELL PRINCIPAL (bottom nav) ───────────────────────────────────────────
+
+class MainShell extends StatefulWidget {
+  const MainShell({super.key, this.initialIndex = 0});
+  final int initialIndex;
+
+  @override
+  State<MainShell> createState() => _MainShellState();
+}
+
+class _MainShellState extends State<MainShell> {
+  late int _currentIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.initialIndex;
+  }
+
+  final _pages = const [
+    MemoryTimelinePage(),
+    CategoriesScreen(),
+    SearchScreen(),
+    MemoryBoxPerfil(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _pages,
+      ),
+      bottomNavigationBar: _BottomBar(
+        currentIndex: _currentIndex,
+        onTap: (i) => setState(() => _currentIndex = i),
+      ),
+    );
+  }
+}
+
+class _BottomBar extends StatelessWidget {
+  final int currentIndex;
+  final ValueChanged<int> onTap;
+
+  const _BottomBar({required this.currentIndex, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      top: false,
+      child: Container(
+        height: 78,
+        decoration: BoxDecoration(
+          color: AppTheme.background,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.06),
+              blurRadius: 18,
+              offset: const Offset(0, -8),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _navItem(Icons.auto_awesome_motion, 'TIMELINE', 0),
+            _navItem(Icons.sell_outlined, 'TAGS', 1),
+            _navItem(Icons.search, 'BUSCAR', 2),
+            _navItem(Icons.person_outline, 'PERFIL', 3),
+          ],
         ),
       ),
     );
   }
 
-  Widget linha() {
-    return Expanded(
-      child: Container(height: 1, color: const Color(0xffe7e1c8)),
-    );
-  }
-
-  Widget googleTexto() {
-    return RichText(
-      text: const TextSpan(
-        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+  Widget _navItem(IconData icon, String texto, int index) {
+    final ativo = currentIndex == index;
+    return GestureDetector(
+      onTap: () => onTap(index),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          TextSpan(
-            text: 'G',
-            style: TextStyle(color: Color(0xff4285f4)),
+          Container(
+            width: 40,
+            height: 36,
+            decoration: BoxDecoration(
+              color: ativo ? const Color(0xffece8d5) : Colors.transparent,
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Icon(
+              icon,
+              size: 20,
+              color: ativo ? AppTheme.primary : const Color(0xff7e786d),
+            ),
           ),
-          TextSpan(
-            text: 'o',
-            style: TextStyle(color: Color(0xffdb4437)),
-          ),
-          TextSpan(
-            text: 'o',
-            style: TextStyle(color: Color(0xfff4b400)),
-          ),
-          TextSpan(
-            text: 'g',
-            style: TextStyle(color: Color(0xff4285f4)),
-          ),
-          TextSpan(
-            text: 'l',
-            style: TextStyle(color: Color(0xff0f9d58)),
-          ),
-          TextSpan(
-            text: 'e',
-            style: TextStyle(color: Color(0xffdb4437)),
+          const SizedBox(height: 3),
+          Text(
+            texto,
+            style: TextStyle(
+              color: ativo ? AppTheme.primary : const Color(0xff7e786d),
+              fontSize: 9,
+              letterSpacing: 1,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),
     );
   }
 }
+
+// ─── PERFIL ─────────────────────────────────────────────────────────────────
 
 class MemoryBoxPerfil extends StatefulWidget {
   const MemoryBoxPerfil({super.key});
@@ -413,9 +492,7 @@ class MemoryBoxPerfil extends StatefulWidget {
 
 class _MemoryBoxPerfilState extends State<MemoryBoxPerfil> {
   final nomeController = TextEditingController(text: 'Helena Ferreira');
-  final emailPerfilController = TextEditingController(
-    text: 'helena.ferreira@example.com',
-  );
+  final emailPerfilController = TextEditingController(text: 'helena.ferreira@example.com');
 
   @override
   void dispose() {
@@ -429,7 +506,7 @@ class _MemoryBoxPerfilState extends State<MemoryBoxPerfil> {
       SnackBar(
         content: Text(texto),
         duration: const Duration(seconds: 1),
-        backgroundColor: const Color(0xffa44a62),
+        backgroundColor: AppTheme.primary,
       ),
     );
   }
@@ -437,7 +514,7 @@ class _MemoryBoxPerfilState extends State<MemoryBoxPerfil> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: barraInferior(),
+      backgroundColor: AppTheme.background,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
@@ -453,21 +530,19 @@ class _MemoryBoxPerfilState extends State<MemoryBoxPerfil> {
                       style: TextStyle(
                         color: Color(0xffa44a62),
                         fontSize: 28,
-                        height: 1.1,
                         fontWeight: FontWeight.w700,
                         fontStyle: FontStyle.italic,
                         fontFamily: 'serif',
                       ),
                     ),
                     const SizedBox(height: 46),
-                    avatar(),
+                    _avatar(),
                     const SizedBox(height: 26),
                     const Text(
                       'Minha Conta',
                       style: TextStyle(
                         color: Color(0xff2d2a24),
                         fontSize: 33,
-                        height: 1.1,
                         fontWeight: FontWeight.w700,
                         fontFamily: 'serif',
                       ),
@@ -478,44 +553,42 @@ class _MemoryBoxPerfilState extends State<MemoryBoxPerfil> {
                       style: TextStyle(color: Color(0xff56514a), fontSize: 17),
                     ),
                     const SizedBox(height: 52),
-                    dadosConta(),
+                    _dadosConta(),
                     const SizedBox(height: 54),
-                    tituloSecao('CONFIGURAÇÕES'),
+                    _tituloSecao('CONFIGURAÇÕES'),
                     const SizedBox(height: 17),
-                    opcaoConfiguracao(
+                    _opcaoConfiguracao(
                       texto: 'Mudar Senha',
                       icon: Icons.lock_outline,
                       onTap: () => aviso('Mudar senha'),
                     ),
                     const SizedBox(height: 16),
-                    opcaoConfiguracao(
+                    _opcaoConfiguracao(
                       texto: 'Notificações',
                       icon: Icons.notifications_none,
                       onTap: () => aviso('Notificações'),
                     ),
                     const SizedBox(height: 16),
-                    opcaoConfiguracao(
+                    _opcaoConfiguracao(
                       texto: 'Privacidade e Dados',
                       icon: Icons.verified_user_outlined,
                       onTap: () => aviso('Privacidade e dados'),
                     ),
-                    const SizedBox(height: 72),
+                    const SizedBox(height: 60),
                     InkWell(
                       borderRadius: BorderRadius.circular(14),
-                      onTap: () => aviso('Sair da conta'),
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (_) => const MemoryBoxLogin()),
+                        );
+                      },
                       child: const Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 18,
-                          vertical: 10,
-                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(
-                              Icons.logout,
-                              color: Color(0xff56514a),
-                              size: 25,
-                            ),
+                            Icon(Icons.logout, color: Color(0xff56514a), size: 25),
                             SizedBox(width: 9),
                             Text(
                               'Sair',
@@ -529,8 +602,8 @@ class _MemoryBoxPerfilState extends State<MemoryBoxPerfil> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 60),
-                    botaoExcluirConta(),
+                    const SizedBox(height: 44),
+                    _botaoExcluirConta(),
                     const SizedBox(height: 8),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 18),
@@ -554,7 +627,7 @@ class _MemoryBoxPerfilState extends State<MemoryBoxPerfil> {
     );
   }
 
-  Widget avatar() {
+  Widget _avatar() {
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -563,13 +636,10 @@ class _MemoryBoxPerfilState extends State<MemoryBoxPerfil> {
           height: 140,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
+            color: AppTheme.surface,
             border: Border.all(color: const Color(0xfffbf8df), width: 4),
           ),
-          child: const Icon(
-            Icons.person_outline,
-            color: Color(0xff565d47),
-            size: 74,
-          ),
+          child: const Icon(Icons.person_outline, color: Color(0xff565d47), size: 74),
         ),
         Positioned(
           right: 4,
@@ -581,15 +651,8 @@ class _MemoryBoxPerfilState extends State<MemoryBoxPerfil> {
               width: 34,
               height: 34,
               decoration: BoxDecoration(
-                color: const Color(0xffa44a62),
+                color: AppTheme.primary,
                 shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xffa44a62).withValues(alpha: 0.22),
-                    blurRadius: 10,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
               ),
               child: const Icon(Icons.edit, color: Colors.white, size: 17),
             ),
@@ -599,7 +662,7 @@ class _MemoryBoxPerfilState extends State<MemoryBoxPerfil> {
     );
   }
 
-  Widget dadosConta() {
+  Widget _dadosConta() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(26, 26, 26, 24),
@@ -610,21 +673,13 @@ class _MemoryBoxPerfilState extends State<MemoryBoxPerfil> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          tituloCampo('NOME COMPLETO'),
+          _tituloCampo('NOME COMPLETO'),
           const SizedBox(height: 11),
-          campoPerfil(
-            controller: nomeController,
-            icon: Icons.person_outline,
-            teclado: TextInputType.name,
-          ),
+          _campoPerfil(controller: nomeController, icon: Icons.person_outline, teclado: TextInputType.name),
           const SizedBox(height: 26),
-          tituloCampo('E-MAIL'),
+          _tituloCampo('E-MAIL'),
           const SizedBox(height: 11),
-          campoPerfil(
-            controller: emailPerfilController,
-            icon: Icons.email_outlined,
-            teclado: TextInputType.emailAddress,
-          ),
+          _campoPerfil(controller: emailPerfilController, icon: Icons.email_outlined, teclado: TextInputType.emailAddress),
           const SizedBox(height: 36),
           Align(
             alignment: Alignment.centerRight,
@@ -636,16 +691,12 @@ class _MemoryBoxPerfilState extends State<MemoryBoxPerfil> {
                 padding: const EdgeInsets.symmetric(horizontal: 36),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: const Color(0xffa44a62),
+                  color: AppTheme.primary,
                   borderRadius: BorderRadius.circular(22),
                 ),
                 child: const Text(
                   'Salvar Alterações',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
                 ),
               ),
             ),
@@ -655,19 +706,17 @@ class _MemoryBoxPerfilState extends State<MemoryBoxPerfil> {
     );
   }
 
-  Widget tituloCampo(String texto) {
-    return Text(
-      texto,
-      style: const TextStyle(
-        color: Color(0xff5f5a50),
-        fontSize: 13,
-        letterSpacing: 3.2,
-        fontWeight: FontWeight.w600,
-      ),
-    );
-  }
+  Widget _tituloCampo(String texto) => Text(
+    texto,
+    style: const TextStyle(
+      color: Color(0xff5f5a50),
+      fontSize: 13,
+      letterSpacing: 3.2,
+      fontWeight: FontWeight.w600,
+    ),
+  );
 
-  Widget campoPerfil({
+  Widget _campoPerfil({
     required TextEditingController controller,
     required IconData icon,
     required TextInputType teclado,
@@ -684,33 +733,28 @@ class _MemoryBoxPerfilState extends State<MemoryBoxPerfil> {
           borderRadius: BorderRadius.circular(13),
           borderSide: BorderSide.none,
         ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 18,
-          vertical: 17,
-        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 17),
       ),
     );
   }
 
-  Widget tituloSecao(String texto) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 26),
-        child: Text(
-          texto,
-          style: const TextStyle(
-            color: Color(0xff56514a),
-            fontSize: 13,
-            letterSpacing: 2.7,
-            fontWeight: FontWeight.w600,
-          ),
+  Widget _tituloSecao(String texto) => Align(
+    alignment: Alignment.centerLeft,
+    child: Padding(
+      padding: const EdgeInsets.only(left: 26),
+      child: Text(
+        texto,
+        style: const TextStyle(
+          color: Color(0xff56514a),
+          fontSize: 13,
+          letterSpacing: 2.7,
+          fontWeight: FontWeight.w600,
         ),
       ),
-    );
-  }
+    ),
+  );
 
-  Widget opcaoConfiguracao({
+  Widget _opcaoConfiguracao({
     required String texto,
     required IconData icon,
     required VoidCallback onTap,
@@ -719,7 +763,7 @@ class _MemoryBoxPerfilState extends State<MemoryBoxPerfil> {
       borderRadius: BorderRadius.circular(14),
       onTap: onTap,
       child: Container(
-        height: 96,
+        height: 80,
         padding: const EdgeInsets.symmetric(horizontal: 26),
         decoration: BoxDecoration(
           color: const Color(0xffede8d3),
@@ -730,21 +774,14 @@ class _MemoryBoxPerfilState extends State<MemoryBoxPerfil> {
             Container(
               width: 45,
               height: 45,
-              decoration: const BoxDecoration(
-                color: Color(0xfffbf8df),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(icon, color: const Color(0xffa44a62), size: 25),
+              decoration: const BoxDecoration(color: Color(0xfffbf8df), shape: BoxShape.circle),
+              child: Icon(icon, color: AppTheme.primary, size: 25),
             ),
             const SizedBox(width: 20),
             Expanded(
               child: Text(
                 texto,
-                style: const TextStyle(
-                  color: Color(0xff3f3b34),
-                  fontSize: 17,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: const TextStyle(color: Color(0xff3f3b34), fontSize: 17, fontWeight: FontWeight.w500),
               ),
             ),
             const Icon(Icons.chevron_right, color: Color(0xff7b7468), size: 28),
@@ -754,7 +791,7 @@ class _MemoryBoxPerfilState extends State<MemoryBoxPerfil> {
     );
   }
 
-  Widget botaoExcluirConta() {
+  Widget _botaoExcluirConta() {
     return InkWell(
       borderRadius: BorderRadius.circular(14),
       onTap: () => aviso('Excluir conta'),
@@ -773,104 +810,7 @@ class _MemoryBoxPerfilState extends State<MemoryBoxPerfil> {
             SizedBox(width: 9),
             Text(
               'Excluir Conta',
-              style: TextStyle(
-                color: Color(0xffb84035),
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget barraInferior() {
-    return SafeArea(
-      top: false,
-      child: Center(
-        heightFactor: 1,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 430),
-          child: Container(
-            height: 84,
-            padding: const EdgeInsets.symmetric(horizontal: 22),
-            decoration: BoxDecoration(
-              color: const Color(0xfffbf9fb),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.04),
-                  blurRadius: 18,
-                  offset: const Offset(0, -8),
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                itemMenu(
-                  texto: 'TIMELINE',
-                  icon: Icons.map_outlined,
-                  selecionado: false,
-                ),
-                itemMenu(
-                  texto: 'CRIAR',
-                  icon: Icons.add_circle_outline,
-                  selecionado: false,
-                ),
-                itemMenu(
-                  texto: 'TAGS',
-                  icon: Icons.sell_outlined,
-                  selecionado: false,
-                ),
-                itemMenu(
-                  texto: 'PERFIL',
-                  icon: Icons.person,
-                  selecionado: true,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget itemMenu({
-    required String texto,
-    required IconData icon,
-    required bool selecionado,
-  }) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(18),
-      onTap: () => aviso(texto),
-      child: Container(
-        width: 76,
-        height: 58,
-        decoration: BoxDecoration(
-          color: selecionado ? const Color(0xffede8d3) : Colors.transparent,
-          borderRadius: BorderRadius.circular(18),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              color: selecionado
-                  ? const Color(0xffa44a62)
-                  : const Color(0xff56514a),
-              size: 25,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              texto,
-              style: TextStyle(
-                color: selecionado
-                    ? const Color(0xffa44a62)
-                    : const Color(0xff56514a),
-                fontSize: 10,
-                fontWeight: selecionado ? FontWeight.w700 : FontWeight.w500,
-              ),
+              style: TextStyle(color: Color(0xffb84035), fontSize: 16, fontWeight: FontWeight.w700),
             ),
           ],
         ),

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import '/category_model.dart';
+import 'models/category_model.dart';
 
 class AppState extends ChangeNotifier {
-  // Categorias padrão
   List<CategoryModel> _categories = [
     CategoryModel(
       id: '1',
@@ -61,7 +60,12 @@ class AppState extends ChangeNotifier {
   ];
 
   List<CategoryModel> get categories => _categories;
-  List<MemoryModel> get memories => _memories;
+
+  List<MemoryModel> get memories {
+    final sorted = List<MemoryModel>.from(_memories);
+    sorted.sort((a, b) => b.date.compareTo(a.date));
+    return sorted;
+  }  
 
   // ── Categorias ──────────────────────────────────────
   void addCategory(CategoryModel cat) {
@@ -81,7 +85,6 @@ class AppState extends ChangeNotifier {
 
   void deleteCategory(String id) {
     _categories.removeWhere((c) => c.id == id);
-    // Remove essa categoria das memórias
     for (var m in _memories) {
       m.categories.removeWhere((c) => c.id == id);
     }
@@ -94,20 +97,24 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+
+
+  List<MemoryModel> filterByCategory(String? categoryId) {
+    if (categoryId == null) return memories; // já ordenado
+    return memories
+        .where((m) => m.categories.any((c) => c.id == categoryId))
+        .toList();
+  }
+
   List<MemoryModel> searchMemories(String query) {
-    if (query.isEmpty) return _memories;
+    if (query.isEmpty) return memories;
     final q = query.toLowerCase();
-    return _memories.where((m) {
+    final results = memories.where((m) {
       return m.title.toLowerCase().contains(q) ||
           m.description.toLowerCase().contains(q) ||
           m.categories.any((c) => c.name.toLowerCase().contains(q));
     }).toList();
+    return results;
   }
 
-  List<MemoryModel> filterByCategory(String? categoryId) {
-    if (categoryId == null) return _memories;
-    return _memories
-        .where((m) => m.categories.any((c) => c.id == categoryId))
-        .toList();
-  }
 }
