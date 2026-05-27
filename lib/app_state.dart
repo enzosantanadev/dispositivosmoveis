@@ -60,7 +60,13 @@ class AppState extends ChangeNotifier {
   ];
 
   List<CategoryModel> get categories => _categories;
-  List<MemoryModel> get memories => _memories;
+
+  // Memórias sempre ordenadas por data decrescente (mais recente primeiro)
+  List<MemoryModel> get memories {
+    final sorted = List<MemoryModel>.from(_memories);
+    sorted.sort((a, b) => b.date.compareTo(a.date));
+    return sorted;
+  }
 
   void addCategory(CategoryModel cat) {
     _categories.add(cat);
@@ -86,14 +92,14 @@ class AppState extends ChangeNotifier {
   }
 
   void addMemory(MemoryModel memory) {
-    _memories.insert(0, memory);
+    _memories.add(memory);
     notifyListeners();
   }
 
   List<MemoryModel> searchMemories(String query) {
-    if (query.isEmpty) return _memories;
+    if (query.isEmpty) return memories; // usa getter ordenado
     final q = query.toLowerCase();
-    return _memories.where((m) {
+    return memories.where((m) {
       return m.title.toLowerCase().contains(q) ||
           m.description.toLowerCase().contains(q) ||
           m.categories.any((c) => c.name.toLowerCase().contains(q));
@@ -101,8 +107,8 @@ class AppState extends ChangeNotifier {
   }
 
   List<MemoryModel> filterByCategory(String? categoryId) {
-    if (categoryId == null) return _memories;
-    return _memories
+    if (categoryId == null) return memories; // usa getter ordenado
+    return memories
         .where((m) => m.categories.any((c) => c.id == categoryId))
         .toList();
   }

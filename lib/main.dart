@@ -3,8 +3,9 @@ import 'package:provider/provider.dart';
 import 'app_state.dart';
 import 'timeline_page.dart';
 import 'categories_screen.dart';
-import 'search_screen.dart';
 import 'create_tag_screen.dart';
+import 'create_memory_screen.dart';
+import 'register_screen.dart';
 
 void main() {
   runApp(
@@ -241,8 +242,12 @@ class _MemoryBoxLoginState extends State<MemoryBoxLogin> {
                                     PlaceholderAlignment.baseline,
                                     baseline: TextBaseline.alphabetic,
                                     child: GestureDetector(
-                                      onTap: () =>
-                                          aviso('Criar nova conta'),
+                                      onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => const RegisterScreen(),
+                                        ),
+                                      ),
                                       child: const Text(
                                         'Criar nova conta',
                                         style: TextStyle(
@@ -411,6 +416,7 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
 
+  // 0=TIMELINE, 1=CRIAR (CreateTagScreen), 2=TAGS (CategoriesScreen), 3=PERFIL
   final List<Widget> _pages = const [
     MemoryTimelinePage(),
     CreateTagScreen(),
