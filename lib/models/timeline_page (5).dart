@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,7 +7,7 @@ import 'models/category_model.dart';
 import 'theme/app_theme.dart';
 import 'services/firestore_service.dart';
 
-// â”€â”€â”€ TIMELINE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── TIMELINE ────────────────────────────────────────────────────────────────
 class MemoryTimelinePage extends StatefulWidget {
   const MemoryTimelinePage({super.key});
   @override
@@ -26,7 +26,7 @@ class _MemoryTimelinePageState extends State<MemoryTimelinePage> {
       backgroundColor: AppTheme.background,
       body: SafeArea(
         child: Stack(clipBehavior: Clip.none, children: [
-          // â”€â”€ Stream Firestore em tempo real â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+          // ── Stream Firestore em tempo real ────────────────────────────
           StreamBuilder<List<MemoryModel>>(
             stream: _fs.streamMemorias(),
             builder: (context, snap) {
@@ -84,7 +84,7 @@ class _MemoryTimelinePageState extends State<MemoryTimelinePage> {
                                     fontSize: 44, fontWeight: FontWeight.w700)),
                               const SizedBox(height: 8),
                               Text(
-                                '${memories.length} memÃ³ria${memories.length != 1 ? "s" : ""}',
+                                '${memories.length} memória${memories.length != 1 ? "s" : ""}',
                                 style: const TextStyle(
                                     color: AppTheme.textMedium, fontSize: 13)),
                               const SizedBox(height: 18),
@@ -191,9 +191,9 @@ class _MemoryTimelinePageState extends State<MemoryTimelinePage> {
       builder: (_) => AlertDialog(
         backgroundColor: AppTheme.background,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Apagar memÃ³ria?',
+        title: const Text('Apagar memória?',
             style: TextStyle(color: AppTheme.textDark)),
-        content: Text('Â«${m.title}Â» serÃ¡ removida permanentemente.',
+        content: Text('«${m.title}» será removida permanentemente.',
             style: const TextStyle(color: AppTheme.textMedium)),
         actions: [
           TextButton(
@@ -209,7 +209,7 @@ class _MemoryTimelinePageState extends State<MemoryTimelinePage> {
   }
 }
 
-// â”€â”€â”€ CARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── CARD ─────────────────────────────────────────────────────────────────────
 class _MemoriaCard extends StatelessWidget {
   final MemoryModel memory;
   final VoidCallback onEditar;
@@ -246,7 +246,7 @@ class _MemoriaCard extends StatelessWidget {
                 children: [
                   if (memory.categories.isNotEmpty)
                     Text(
-                      memory.categories.map((c) => c.name.toUpperCase()).join(' Â· '),
+                      memory.categories.map((c) => c.name.toUpperCase()).join(' · '),
                       style: const TextStyle(
                         color: Color(0xffba7b81), fontSize: 9,
                         letterSpacing: 1.4, fontWeight: FontWeight.w700)),
@@ -260,7 +260,7 @@ class _MemoriaCard extends StatelessWidget {
                       style: const TextStyle(
                         color: Color(0xffa39d92), fontSize: 10, height: 1.2)),
                 ])),
-            // â”€â”€ Menu de aÃ§Ãµes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            // ── Menu de ações ────────────────────────────────────────────
             PopupMenuButton<String>(
               icon: const Icon(Icons.more_vert,
                   color: Color(0xff9f8f92), size: 17),
@@ -310,7 +310,7 @@ class _MemoriaCard extends StatelessWidget {
                       fontSize: 11, color: Color(0xff3f3b34))),
               ]))).toList()),
         ],
-        // âœ… Mostra criado_por para transparÃªncia
+        // ✅ Mostra criado_por para transparência
         const SizedBox(height: 10),
         Text('por ${memory.criadoPor}',
             style: const TextStyle(
@@ -319,9 +319,9 @@ class _MemoriaCard extends StatelessWidget {
   }
 }
 
-// â”€â”€â”€ CRIAR / EDITAR MEMÃ“RIA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── CRIAR / EDITAR MEMÓRIA ───────────────────────────────────────────────────
 class CriarEditarMemoriaPage extends StatefulWidget {
-  final MemoryModel? memoria; // null = criar, nÃ£o-null = editar
+  final MemoryModel? memoria; // null = criar, não-null = editar
   const CriarEditarMemoriaPage({super.key, this.memoria});
   @override
   State<CriarEditarMemoriaPage> createState() =>
@@ -359,7 +359,7 @@ class _CriarEditarMemoriaPageState extends State<CriarEditarMemoriaPage> {
   Future<void> _salvar() async {
     if (_tituloCtrl.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Digite um tÃ­tulo para a memÃ³ria')));
+          const SnackBar(content: Text('Digite um título para a memória')));
       return;
     }
     setState(() => _salvando = true);
@@ -441,7 +441,7 @@ class _CriarEditarMemoriaPageState extends State<CriarEditarMemoriaPage> {
                           color: const Color(0xffa44a62),
                           fontSize: 36, fontWeight: FontWeight.w700)))),
                   const SizedBox(height: 22),
-                  _label('TÃTULO DA MEMÃ“RIA:'),
+                  _label('TÍTULO DA MEMÓRIA:'),
                   const SizedBox(height: 12),
                   TextField(
                     controller: _tituloCtrl,
@@ -456,7 +456,7 @@ class _CriarEditarMemoriaPageState extends State<CriarEditarMemoriaPage> {
                         color: const Color(0xffc4bbaf),
                         fontSize: 26, fontWeight: FontWeight.w400))),
                   const SizedBox(height: 16),
-                  _label('DESCRIÃ‡ÃƒO:'),
+                  _label('DESCRIÇÃO:'),
                   const SizedBox(height: 12),
                   TextField(
                     controller: _descCtrl,
@@ -500,7 +500,7 @@ class _CriarEditarMemoriaPageState extends State<CriarEditarMemoriaPage> {
                           ])));
                     }).toList()),
                   const Spacer(),
-                  // BOTÃƒO SALVAR
+                  // BOTÃO SALVAR
                   GestureDetector(
                     onTap: _salvando ? null : _salvar,
                     child: Container(
@@ -516,7 +516,7 @@ class _CriarEditarMemoriaPageState extends State<CriarEditarMemoriaPage> {
                                 child: CircularProgressIndicator(
                                     color: Colors.white, strokeWidth: 2.5))
                             : Text(
-                                _editando ? 'Salvar AlteraÃ§Ãµes' : 'Criar MemÃ³ria',
+                                _editando ? 'Salvar Alterações' : 'Criar Memória',
                                 style: const TextStyle(
                                   color: Colors.white, fontSize: 16,
                                   fontWeight: FontWeight.w700))))),

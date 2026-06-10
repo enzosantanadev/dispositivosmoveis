@@ -22,6 +22,10 @@ class MemoryModel {
   String? imagePath;
   List<CategoryModel> categories;
 
+  // ✅ Campos obrigatórios da atividade — amarração dinâmica com Firebase Auth
+  final String criadoPor;
+  final String usuarioLogado;
+
   MemoryModel({
     required this.id,
     required this.title,
@@ -29,5 +33,7 @@ class MemoryModel {
     required this.date,
     this.imagePath,
     required this.categories,
+    this.criadoPor = '',
+    this.usuarioLogado = '',
   });
 }

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'app_state.dart';
 import 'models/category_model.dart';
@@ -34,7 +34,7 @@ class _CreateTagScreenState extends State<CreateTagScreen> {
   ];
 
   final List<Map<String, dynamic>> _iconOptions = [
-    {'icon': Icons.favorite, 'label': 'Família'},
+    {'icon': Icons.favorite, 'label': 'FamÃ­lia'},
     {'icon': Icons.restaurant, 'label': 'Comida'},
     {'icon': Icons.flight_takeoff, 'label': 'Viagem'},
     {'icon': Icons.park, 'label': 'Natureza'},
@@ -43,7 +43,7 @@ class _CreateTagScreenState extends State<CreateTagScreen> {
     {'icon': Icons.person_outline, 'label': 'Pessoal'},
     {'icon': Icons.school_outlined, 'label': 'Estudo'},
     {'icon': Icons.sports_soccer, 'label': 'Esporte'},
-    {'icon': Icons.music_note, 'label': 'Música'},
+    {'icon': Icons.music_note, 'label': 'MÃºsica'},
     {'icon': Icons.camera_alt_outlined, 'label': 'Foto'},
     {'icon': Icons.star_outline, 'label': 'Especial'},
     {'icon': Icons.home_outlined, 'label': 'Casa'},
@@ -124,7 +124,7 @@ class _CreateTagScreenState extends State<CreateTagScreen> {
               width: 36,
               height: 36,
               decoration: BoxDecoration(
-                color: AppTheme.primary.withOpacity(0.1),
+                color: AppTheme.primary.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: const Icon(Icons.close,
@@ -180,7 +180,7 @@ class _CreateTagScreenState extends State<CreateTagScreen> {
       child: Column(
         children: [
           const Text(
-            'Prévia da Tag',
+            'PrÃ©via da Tag',
             style: TextStyle(
               fontSize: 11,
               color: AppTheme.textLight,
@@ -198,7 +198,7 @@ class _CreateTagScreenState extends State<CreateTagScreen> {
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
                 BoxShadow(
-                  color: _selectedColor.withOpacity(0.5),
+                  color: _selectedColor.withValues(alpha: 0.5),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
@@ -208,7 +208,7 @@ class _CreateTagScreenState extends State<CreateTagScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(_selectedIcon,
-                    size: 16, color: AppTheme.textDark.withOpacity(0.7)),
+                    size: 16, color: AppTheme.textDark.withValues(alpha: 0.7)),
                 const SizedBox(width: 8),
                 Text(
                   _nameController.text.isEmpty
@@ -217,8 +217,7 @@ class _CreateTagScreenState extends State<CreateTagScreen> {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: AppTheme.textDark.withOpacity(
-                        _nameController.text.isEmpty ? 0.4 : 0.85),
+                    color: AppTheme.textDark.withValues(alpha: _nameController.text.isEmpty ? 0.4 : 0.85),
                   ),
                 ),
               ],
@@ -234,7 +233,7 @@ class _CreateTagScreenState extends State<CreateTagScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'TÍTULO DA MEMÓRIA',
+          'TÃTULO DA MEMÃ“RIA',
           style: TextStyle(
             fontSize: 11,
             fontWeight: FontWeight.w700,
@@ -341,7 +340,7 @@ class _CreateTagScreenState extends State<CreateTagScreen> {
                   boxShadow: isSelected
                       ? [
                           BoxShadow(
-                            color: color.withOpacity(0.5),
+                            color: color.withValues(alpha: 0.5),
                             blurRadius: 8,
                           )
                         ]
@@ -369,7 +368,7 @@ class _CreateTagScreenState extends State<CreateTagScreen> {
                 size: 14, color: AppTheme.textMedium),
             SizedBox(width: 6),
             Text(
-              'ÍCONE',
+              'ÃCONE',
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
@@ -408,7 +407,7 @@ class _CreateTagScreenState extends State<CreateTagScreen> {
                   icon,
                   size: 20,
                   color: isSelected
-                      ? AppTheme.textDark.withOpacity(0.8)
+                      ? AppTheme.textDark.withValues(alpha: 0.8)
                       : AppTheme.textMedium,
                 ),
               ),
@@ -427,7 +426,7 @@ class _CreateTagScreenState extends State<CreateTagScreen> {
         style: ElevatedButton.styleFrom(
           disabledBackgroundColor: AppTheme.divider,
         ),
-        child: Text(_isEditing ? 'Salvar Alterações' : 'Criar Tag'),
+        child: Text(_isEditing ? 'Salvar AlteraÃ§Ãµes' : 'Criar Tag'),
       ),
     );
   }
@@ -485,7 +484,7 @@ class _ExistingTagRow extends StatelessWidget {
             width: 28,
             height: 28,
             decoration: BoxDecoration(
-              color: category.color.withOpacity(0.5),
+              color: category.color.withValues(alpha: 0.5),
               shape: BoxShape.circle,
             ),
             child:
