@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "871415463001",
+    "project_id": "memorybox-fa575",
+    "storage_bucket": "memorybox-fa575.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871415463001:android:ec8ff7cfb6fbb533894548",
+        "android_client_info": {
+          "package_name": "com.example.myapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "871415463001-adefgro1dlmmi5b1p6fkg66slf84s7hd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapp",
+            "certificate_hash": "e64e15c95f66f2aaf4a801350cd58869c4605ed8"
+          }
+        },
+        {
+          "client_id": "871415463001-bo3ibiuqotfa31ca2bml8o4s3tnpd61s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApJN87pfWwpZgWoB3UHAogqMOshG6qAGg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "871415463001-bo3ibiuqotfa31ca2bml8o4s3tnpd61s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "871415463001-09d811s6fcnbtbnbn81llje3tvqn5lds.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.myapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

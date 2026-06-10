@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /memorias/{id} {
+      // Somente autenticados com @souunit.com.br
+      function autorizado() {
+        return request.auth != null
+          && request.auth.token.email.matches('.*@souunit\\.com\\.br');
+      }
+      function dono() {
+        return resource.data.usuario_logado == request.auth.token.email;
+      }
+
+      allow read:   if autorizado() && dono();
+      allow create: if autorizado()
+                    && request.resource.data.usuario_logado == request.auth.token.email
+                    && request.resource.data.criado_por    == request.auth.token.email;
+      allow update: if autorizado() && dono();
+      allow delete: if autorizado() && dono();
+    }
+  }
+}
