@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "344566214616",
+    "project_id": "memorybox-fb5b4",
+    "storage_bucket": "memorybox-fb5b4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:344566214616:android:13a9572a9ba90a52234cad",
+        "android_client_info": {
+          "package_name": "com.example.memorybox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "344566214616-eivnnrmg4caqcedhs0g8js0r252trmeb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.memorybox",
+            "certificate_hash": "a2f293f0c42f1724bbb092304b2ce73e0aad3937"
+          }
+        },
+        {
+          "client_id": "344566214616-da7am1k4810g2g21kef2rdlgo4uo01vi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqK54Wi40CvGxZve0m4j6Od4YTiSEJRHk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "344566214616-da7am1k4810g2g21kef2rdlgo4uo01vi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
